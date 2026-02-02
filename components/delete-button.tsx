@@ -18,15 +18,21 @@ export function DeleteButton({ id }: { id: string }) {
 
     setIsDeleting(true)
     try {
+      console.log('[v0] Deleting incident:', id)
       const res = await fetch(`/api/incidents/${id}`, {
         method: 'DELETE',
       })
 
+      const data = await res.json()
+      console.log('[v0] Delete response:', data)
+
       if (res.ok) {
         router.refresh()
+      } else {
+        console.error('[v0] Delete failed:', data)
       }
     } catch (error) {
-      console.error('Failed to delete:', error)
+      console.error('[v0] Failed to delete:', error)
     } finally {
       setIsDeleting(false)
     }
